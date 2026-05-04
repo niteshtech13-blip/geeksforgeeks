@@ -1,2 +1,34 @@
-# geeksforgeeks
-solution
+#include <iostream>
+#include <vector>
+
+bool is_prime(int num) {
+    if (num <= 1) return false;
+    if (num <= 3) return true;
+    if (num % 2 == 0 || num % 3 == 0) return false;
+    for (int i = 5; i * i <= num; i = i + 6) {
+        if (num % i == 0 || num % (i + 2) == 0) return false;
+    }
+    return true;
+}
+
+void prime_matrix(int n, std::vector<std::vector<int>>& matrix) {
+    std::vector<bool> rows_to_mark(n, false);
+    std::vector<bool> cols_to_mark(n, false);
+
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < n; ++j) {
+            if (is_prime(matrix[i][j])) {
+                rows_to_mark[i] = true;
+                cols_to_mark[j] = true;
+            }
+        }
+    }
+
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < n; ++j) {
+            if (rows_to_mark[i] || cols_to_mark[j]) {
+                matrix[i][j] = -1;
+            }
+        }
+    }
+}
